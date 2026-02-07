@@ -1,0 +1,101 @@
+{
+  "standard": "PSOS",
+  "version": "1.0",
+  "timestamp": "2024-02-06T14:30:00Z",
+  "source": "website-form",
+  "client": {
+    "contact": {
+      "first_name": "Sarah",
+      "last_name": "Johnson",
+      "email": "sarah@example.com",
+      "phone": "919-555-0123",
+      "phone_type": "mobile",
+      "preferred_contact_method": "sms",
+      "language": "en"
+    },
+    "service_address": {
+      "street": "123 Oak Street",
+      "unit": "",
+      "city": "Raleigh",
+      "state": "NC",
+      "zip": "27601",
+      "country": "US",
+      "coordinates": {
+        "latitude": 35.7796,
+        "longitude": -78.6382
+      },
+      "property_type": "single_family",
+      "lot_size_sqft": 8000,
+      "fenced": true,
+      "gate_code": "1234"
+    },
+    "billing_address": {
+      "same_as_service": true
+    },
+    "pets": [
+      {
+        "name": "Max",
+        "breed": "Golden Retriever",
+        "weight_lbs": 65,
+        "age_years": 3,
+        "temperament": "friendly",
+        "special_needs": ""
+      }
+    ]
+  },
+  "service_request": {
+    "service_type": "recurring",
+    "frequency": "weekly",
+    "preferred_day": "tuesday",
+    "preferred_time": "morning",
+    "start_date": "2024-02-13",
+    "area_to_service": "entire_yard",
+    "estimated_waste_volume": "medium",
+    "special_instructions": "Please close gate after service"
+  },
+  "pricing": {
+    "quoted_price": 29.99,
+    "currency": "USD",
+    "billing_frequency": "monthly",
+    "initial_cleanup_price": 75.00,
+    "promotion_code": "SPRING2024",
+    "discount_applied": 10.00
+  },
+  "payment": {
+    "method": "credit_card",
+    "billing_day": 1,
+    "auto_pay": true,
+    "payment_token": "tok_visa_4242",
+    "processor": "stripe"
+  },
+  "preferences": {
+    "notifications": {
+      "service_reminders": true,
+      "arrival_alerts": true,
+      "invoice_emails": true,
+      "marketing_emails": false
+    },
+    "service_photos": true,
+    "service_reports": true
+  },
+  "agreements": {
+    "terms_accepted": true,
+    "terms_version": "2024-01-15",
+    "terms_url": "https://example.com/terms",
+    "signature": "Sarah Johnson",
+    "ip_address": "192.168.1.1",
+    "accepted_at": "2024-02-06T14:30:00Z"
+  },
+  "metadata": {
+    "referral_source": "google_ads",
+    "campaign_id": "spring_2024",
+    "utm_source": "google",
+    "utm_medium": "cpc",
+    "utm_campaign": "spring-sale",
+    "utm_term": "pooper-scooper-raleigh",
+    "utm_content": "ad-variant-a",
+    "referring_customer_id": "",
+    "sales_rep": "",
+    "notes": "Mentioned neighbor uses service"
+  }
+}
