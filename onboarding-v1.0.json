@@ -1,0 +1,397 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://onboarding-standard.org/schema/v1.0",
+  "title": "Pooper Scooper Client Onboarding Standard",
+  "description": "Standard format for client onboarding data in pet waste management industry",
+  "type": "object",
+  "required": [
+    "standard",
+    "version",
+    "timestamp",
+    "client",
+    "service_request"
+  ],
+  "properties": {
+    "standard": {
+      "type": "string",
+      "const": "PSOS",
+      "description": "Pooper Scooper Onboarding Standard identifier"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "Schema version (e.g., '1.0')"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this onboarding data was created (ISO 8601)"
+    },
+    "source": {
+      "type": "string",
+      "description": "Where this lead/signup came from",
+      "examples": ["website-form", "phone-call", "referral", "door-hanger"]
+    },
+    
+    "client": {
+      "type": "object",
+      "required": ["contact", "service_address"],
+      "properties": {
+        "contact": {
+          "type": "object",
+          "required": ["first_name", "last_name", "email", "phone"],
+          "properties": {
+            "first_name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "last_name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "phone": {
+              "type": "string",
+              "pattern": "^[0-9\\-\\+\\(\\)\\s]+$",
+              "description": "Phone number in any common format"
+            },
+            "phone_type": {
+              "type": "string",
+              "enum": ["mobile", "home", "work"],
+              "description": "Optional: Type of phone number"
+            },
+            "preferred_contact_method": {
+              "type": "string",
+              "enum": ["email", "sms", "phone", "any"],
+              "description": "Optional: How client prefers to be contacted"
+            },
+            "language": {
+              "type": "string",
+              "pattern": "^[a-z]{2}$",
+              "default": "en",
+              "description": "Optional: ISO 639-1 two-letter language code"
+            }
+          }
+        },
+        
+        "service_address": {
+          "type": "object",
+          "required": ["street", "city", "state", "zip"],
+          "properties": {
+            "street": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unit": {
+              "type": "string",
+              "description": "Optional: Apartment, suite, or unit number"
+            },
+            "city": {
+              "type": "string",
+              "minLength": 1
+            },
+            "state": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 2,
+              "description": "Two-letter state/province code"
+            },
+            "zip": {
+              "type": "string",
+              "pattern": "^[0-9]{5}(-[0-9]{4})?$"
+            },
+            "country": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$",
+              "default": "US",
+              "description": "Optional: ISO 3166-1 alpha-2 country code"
+            },
+            "coordinates": {
+              "type": "object",
+              "description": "Optional: GPS coordinates",
+              "properties": {
+                "latitude": {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "longitude": {
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
+                }
+              },
+              "required": ["latitude", "longitude"]
+            },
+            "property_type": {
+              "type": "string",
+              "enum": ["single_family", "townhouse", "condo", "apartment", "commercial", "other"],
+              "description": "Optional: Type of property"
+            },
+            "lot_size_sqft": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Optional: Property size in square feet"
+            },
+            "fenced": {
+              "type": "boolean",
+              "description": "Optional: Whether yard is fenced"
+            },
+            "gate_code": {
+              "type": "string",
+              "description": "Optional: Access code for gate/door"
+            }
+          }
+        },
+        
+        "billing_address": {
+          "type": "object",
+          "description": "Optional: Separate billing address if different from service address",
+          "properties": {
+            "same_as_service": {
+              "type": "boolean",
+              "description": "If true, other fields can be omitted"
+            },
+            "street": {"type": "string"},
+            "unit": {"type": "string"},
+            "city": {"type": "string"},
+            "state": {"type": "string"},
+            "zip": {"type": "string"},
+            "country": {"type": "string"}
+          }
+        },
+        
+        "pets": {
+          "type": "array",
+          "description": "Optional: Array of pets at service address",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "breed": {"type": "string"},
+              "weight_lbs": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 500
+              },
+              "age_years": {
+                "type": "number",
+                "minimum": 0
+              },
+              "temperament": {
+                "type": "string",
+                "enum": ["friendly", "shy", "aggressive", "unknown"]
+              },
+              "special_needs": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    
+    "service_request": {
+      "type": "object",
+      "required": ["service_type"],
+      "properties": {
+        "service_type": {
+          "type": "string",
+          "enum": ["recurring", "one_time", "initial_only"],
+          "description": "Type of service requested"
+        },
+        "frequency": {
+          "type": "string",
+          "enum": ["weekly", "twice_weekly", "three_times_weekly", "bi_weekly", "monthly"],
+          "description": "For recurring services only"
+        },
+        "preferred_day": {
+          "type": "string",
+          "enum": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "any"],
+          "description": "Optional: Preferred service day"
+        },
+        "preferred_time": {
+          "type": "string",
+          "enum": ["morning", "afternoon", "evening", "any"],
+          "description": "Optional: Preferred time of day"
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional: Requested start date (YYYY-MM-DD)"
+        },
+        "area_to_service": {
+          "type": "string",
+          "enum": ["entire_yard", "front_only", "back_only", "specific_areas"],
+          "description": "Optional: Which areas to service"
+        },
+        "estimated_waste_volume": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "unknown"],
+          "description": "Optional: Estimated amount of waste"
+        },
+        "special_instructions": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Optional: Special requests or instructions"
+        }
+      }
+    },
+    
+    "pricing": {
+      "type": "object",
+      "description": "Optional: Pricing information if quoted",
+      "properties": {
+        "quoted_price": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Regular service price per occurrence"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "default": "USD",
+          "description": "ISO 4217 currency code"
+        },
+        "billing_frequency": {
+          "type": "string",
+          "enum": ["per_service", "weekly", "monthly", "quarterly", "annually"]
+        },
+        "initial_cleanup_price": {
+          "type": "number",
+          "minimum": 0,
+          "description": "One-time initial cleanup price if different"
+        },
+        "promotion_code": {
+          "type": "string",
+          "description": "Promo code applied"
+        },
+        "discount_applied": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Discount amount in currency units"
+        }
+      }
+    },
+    
+    "payment": {
+      "type": "object",
+      "description": "Optional: Payment method information",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["credit_card", "ach", "check", "cash", "invoice"]
+        },
+        "billing_day": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 31,
+          "description": "Day of month for recurring billing"
+        },
+        "auto_pay": {
+          "type": "boolean",
+          "description": "Whether automatic payment is enabled"
+        },
+        "payment_token": {
+          "type": "string",
+          "description": "Tokenized payment method from processor (never send raw card data)"
+        },
+        "processor": {
+          "type": "string",
+          "enum": ["stripe", "square", "authorize_net", "braintree", "other"],
+          "description": "Payment processor used"
+        }
+      }
+    },
+    
+    "preferences": {
+      "type": "object",
+      "description": "Optional: Client communication and service preferences",
+      "properties": {
+        "notifications": {
+          "type": "object",
+          "properties": {
+            "service_reminders": {"type": "boolean"},
+            "arrival_alerts": {"type": "boolean"},
+            "invoice_emails": {"type": "boolean"},
+            "marketing_emails": {"type": "boolean"}
+          }
+        },
+        "service_photos": {
+          "type": "boolean",
+          "description": "Whether client wants before/after photos"
+        },
+        "service_reports": {
+          "type": "boolean",
+          "description": "Whether client wants detailed service reports"
+        }
+      }
+    },
+    
+    "agreements": {
+      "type": "object",
+      "description": "Optional: Terms of service acceptance",
+      "properties": {
+        "terms_accepted": {"type": "boolean"},
+        "terms_version": {
+          "type": "string",
+          "description": "Version or date of terms accepted"
+        },
+        "terms_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to full terms document"
+        },
+        "signature": {
+          "type": "string",
+          "description": "Electronic signature (typically typed name)"
+        },
+        "ip_address": {
+          "type": "string",
+          "description": "IP address where terms were accepted"
+        },
+        "accepted_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When terms were accepted"
+        }
+      }
+    },
+    
+    "metadata": {
+      "type": "object",
+      "description": "Optional: Marketing attribution and tracking data",
+      "properties": {
+        "referral_source": {
+          "type": "string",
+          "description": "How they found you"
+        },
+        "campaign_id": {
+          "type": "string",
+          "description": "Marketing campaign identifier"
+        },
+        "utm_source": {"type": "string"},
+        "utm_medium": {"type": "string"},
+        "utm_campaign": {"type": "string"},
+        "utm_term": {"type": "string"},
+        "utm_content": {"type": "string"},
+        "referring_customer_id": {
+          "type": "string",
+          "description": "ID of customer who referred this client"
+        },
+        "sales_rep": {
+          "type": "string",
+          "description": "Sales representative assigned"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "Additional notes or comments"
+        }
+      }
+    }
+  }
+}
