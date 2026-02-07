@@ -1,0 +1,45 @@
+{
+  "standard": "PSOS",
+  "version": "1.0",
+  "timestamp": "2024-02-06T14:30:00Z",
+  "source": "website-form",
+  "client": {
+    "contact": {
+      "first_name": "Sarah",
+      "last_name": "Johnson",
+      "email": "sarah@example.com",
+      "phone": "919-555-0123",
+      "preferred_contact_method": "sms"
+    },
+    "service_address": {
+      "street": "123 Oak Street",
+      "city": "Raleigh",
+      "state": "NC",
+      "zip": "27601",
+      "property_type": "single_family",
+      "fenced": true
+    },
+    "pets": [
+      {
+        "name": "Max",
+        "breed": "Golden Retriever",
+        "weight_lbs": 65
+      }
+    ]
+  },
+  "service_request": {
+    "service_type": "recurring",
+    "frequency": "weekly",
+    "start_date": "2024-02-13"
+  },
+  "pricing": {
+    "quoted_price": 29.99,
+    "currency": "USD",
+    "billing_frequency": "monthly"
+  },
+  "metadata": {
+    "referral_source": "google_ads",
+    "utm_source": "google",
+    "utm_medium": "cpc"
+  }
+}
